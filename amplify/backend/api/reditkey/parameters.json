@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "reditkey",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authreditclonebf98749b",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

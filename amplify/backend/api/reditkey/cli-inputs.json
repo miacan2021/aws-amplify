@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "reditkey",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/shiho/Desktop/aws/amplify/backend/api/reditkey/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2023-04-16T05:20:19.818Z",
+      "keyDescription": "raditapikey"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authreditclonebf98749b"
+      }
+    ]
+  }
+}

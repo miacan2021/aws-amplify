@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Input, { Button, TextField } from "@mui/material";
+import { CognitoUser } from "@aws-amplify/auth";
+import { Auth } from "aws-amplify";
 
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import { useUser } from "../context/AuthContext";
+import { useRouter } from "next/router";
 
 interface IFormInput {
   username: string;
   email: string;
   password: string;
+  code: string;
 }
 
 const Signup = () => {
+  const { user, setUser } = useUser();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [signUpErr, setSignUpErr] = useState<string>("");
+  const [showCode, setShowCode] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -21,18 +29,23 @@ const Signup = () => {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log(data);
     try {
-      signUpWithEmailAndPassword(data);
+      if (showCode) {
+        confirmSignUp(data);
+      } else {
+        await signUpWithEmailAndPassword(data);
+        setShowCode(true);
+      }
     } catch (error: any) {
       console.error(error);
       setSignUpErr(error.message);
       setOpen(true);
     }
   };
-  console.log("errors", errors);
 
-  async function signUpWithEmailAndPassword(data: IFormInput) {
+  async function signUpWithEmailAndPassword(
+    data: IFormInput
+  ): Promise<CognitoUser> {
     const { username, password, email } = data;
     try {
       const { user } = await Auth.signUp({
@@ -42,9 +55,27 @@ const Signup = () => {
           email, // optional
         },
       });
-      console.log(user);
+      console.log("signed up user:", user);
+      return user;
     } catch (error) {
-      console.log("error signing up:", error);
+      throw error;
+    }
+  }
+
+  console.log("user from hook", user);
+
+  async function confirmSignUp(data: IFormInput) {
+    const { username, password, code } = data;
+    try {
+      await Auth.confirmSignUp(username, code);
+      const amplifyUser = await Auth.signIn(username, password);
+      if (amplifyUser) {
+        router.push("/");
+      } else {
+        throw new Error("something wrong");
+      }
+    } catch (error) {
+      console.log("error confirming sign up", error);
     }
   }
   return (
@@ -87,8 +118,24 @@ const Signup = () => {
           required: { value: true, message: "Please enter a password." },
         })}
       />
+      {showCode && (
+        <TextField
+          id="code"
+          label="varification code"
+          type="text"
+          error={errors.code ? true : false}
+          helperText={errors.code ? errors.code.message : null}
+          {...register("code", {
+            required: { value: true, message: "Please enter a username." },
+            maxLength: {
+              value: 6,
+              message: "Please enter a code 6 characters.",
+            },
+          })}
+        />
+      )}
       <Button variant="contained" type="submit">
-        Sign up
+        {showCode ? "Confirm Code" : "Sign up"}
       </Button>
 
       {/* <Alert severity="error">

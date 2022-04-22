@@ -5,10 +5,14 @@
 export type CreatePostInput = {
   id?: string | null,
   title: string,
+  contents: string,
+  image?: string | null,
 };
 
 export type ModelPostConditionInput = {
   title?: ModelStringInput | null,
+  contents?: ModelStringInput | null,
+  image?: ModelStringInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -58,6 +62,8 @@ export type Post = {
   __typename: "Post",
   id: string,
   title: string,
+  contents: string,
+  image?: string | null,
   comments?: ModelCommentConnection | null,
   createdAt: string,
   updatedAt: string,
@@ -83,6 +89,8 @@ export type Comment = {
 export type UpdatePostInput = {
   id: string,
   title?: string | null,
+  contents?: string | null,
+  image?: string | null,
 };
 
 export type DeletePostInput = {
@@ -132,6 +140,8 @@ export type DeleteCommentInput = {
 export type ModelPostFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
+  contents?: ModelStringInput | null,
+  image?: ModelStringInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
   or?: Array< ModelPostFilterInput | null > | null,
   not?: ModelPostFilterInput | null,
@@ -162,6 +172,8 @@ export type CreatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -191,6 +203,8 @@ export type UpdatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -220,6 +234,8 @@ export type DeletePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -299,6 +315,8 @@ export type GetPostQuery = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -331,6 +349,8 @@ export type ListPostsQuery = {
       __typename: "Post",
       id: string,
       title: string,
+      contents: string,
+      image?: string | null,
       comments?:  {
         __typename: "ModelCommentConnection",
         nextToken?: string | null,
@@ -390,6 +410,8 @@ export type OnCreatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -418,6 +440,8 @@ export type OnUpdatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {
@@ -446,6 +470,8 @@ export type OnDeletePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
+    contents: string,
+    image?: string | null,
     comments?:  {
       __typename: "ModelCommentConnection",
       items:  Array< {

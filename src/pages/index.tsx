@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import type { NextPage } from "next";
 import { useUser } from "../context/AuthContext";
 import { listPosts } from "../graphql/queries";
 import { ListPostsQuery, Post } from "../API";
+import { Container } from "@mui/material";
+import PostPreview from "../components/PostPreview";
 
 const Home: NextPage = () => {
   const { user } = useUser();
@@ -26,7 +28,13 @@ const Home: NextPage = () => {
   }, []);
   console.log("posts", posts);
 
-  return <div>hi</div>;
+  return (
+    <Container maxWidth="md">
+      {posts.map((post) => (
+        <PostPreview key={post.id} post={post} />
+      ))}
+    </Container>
+  );
 };
 
 export default Home;

@@ -7,6 +7,8 @@ export const onCreatePost = /* GraphQL */ `
     onCreatePost(owner: $owner) {
       id
       title
+      contents
+      image
       comments {
         items {
           id
@@ -29,6 +31,8 @@ export const onUpdatePost = /* GraphQL */ `
     onUpdatePost(owner: $owner) {
       id
       title
+      contents
+      image
       comments {
         items {
           id
@@ -51,6 +55,8 @@ export const onDeletePost = /* GraphQL */ `
     onDeletePost(owner: $owner) {
       id
       title
+      contents
+      image
       comments {
         items {
           id
